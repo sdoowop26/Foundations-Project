@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style1.css">
+    <title>Turtle Bros Inc Manager Page</title>
+</head>
+<body>
+    <img src= "head.png" alt="">
+    <h1>Welcome Raphael!</h1>
+
+    <label for="Testers">Choose a Tester:</label>
+    <p> Ryan</p> <p>Michelangelo</p>
+  <input type="text" aria-label="testerNames" id="testerNames" >
+
+
+   
+
+    
+   <p id="Defect Id"> Enter Defect: </p>
+   <input type="text" placeholder="defectId" id="defectInput">
+   
+    
+    <input onclick="assignDefect()" id="submit" type="submit">
+       
+    
+
+   
+
+    
+<script>
+
+
+async function assignDefect(){
+  console.log(document.getElementById("defectInput").value)
+   // Co1llect the defect information from the web page
+   const defect = document.getElementById("defect")
+   let defectInfo = {
+            defectId: 0,
+            assignedTo: document.getElementById("testerNames").value,
+            dateReported: 0,
+            status: "Pending",
+            desc: document.getElementById("defectInput").value,
+            stepsToReproduce: "string",
+            severity: "Low",
+            priority: "Low"
+
+     
+   
+   // Combine it into a custom object
+   // date string must be converted to int for API
+   
+   }   
+       
+   // Set up the configuration for the FETCH command to the Api
+   let config = {
+       method:"POST", // method is a reference to the kind of request you are making (the verb): GET is the default
+       headers:{'Content-Type':"application/json"}, // some APIs will return an error message without this value included
+       body: JSON.stringify(defectInfo) // stringify converts a JavaScript object into a json
+   }
+
+   // Send the information to the API using FETCH
+   const httpResponse = await fetch("https://bugcatcher.coe.revaturelabs.com/26/defects", config); // notice we added the config object
+
+   console.log(httpResponse.status);
+
+
+   // Get the response from the API
+   // Interpret the response and respond accordingly (defect added or not)
+   if (httpResponse.status == 201){
+       alert ("defect was  assigned")
+   const responseBody = await httpResponse.json(); // converts the response body json into a JavaScript object
+    console.log(responseBody)
+    localStorage.setItem("defectInput", responseBody.defectId)
+    window.location.href = "Tester.html"
+   }
+}
+       
+  
+
+  
+   // if (responseBody.role === "Manager"){
+   //     window.location.assign("landing-M.html")
+   // } else if (responseBody.role === "Tester") {
+   //     window.location.assign("landing-T.html")
+   // }
+  
+
+
+       
+    
+
+
+
+
+
+
+</script>
+    
+</body>
+   
+</html>

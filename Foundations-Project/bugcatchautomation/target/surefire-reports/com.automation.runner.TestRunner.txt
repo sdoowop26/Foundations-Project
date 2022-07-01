@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: com.automation.runner.TestRunner
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 23.61 s <<< FAILURE! - in com.automation.runner.TestRunner
+Manager is on custom homepage(Users at my bug catch application should be on their respective homepages)  Time elapsed: 0.324 s  <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problems: 
+	Syntax error, insert "VariableDeclarators" to complete LocalVariableDeclaration
+	testerNames cannot be resolved or is not a field
+	The method entertesterNames(String) is undefined for the type Object
+
+

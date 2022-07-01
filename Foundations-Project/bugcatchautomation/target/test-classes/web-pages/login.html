@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <h2>Turtle Bros Inc.</h2>
+    <title>Login</title>
+</head>
+<body>
+    
+     
+        
+            <img src="man.png" alt="">
+            <h2>Login</h2>
+            <label><input id="username" type="text" placeholder="Username"></label>
+            <label><input  id="password"type="password" placeholder="Password"></label>
+            <label><button type="submit" id="btn" onclick="test" >Submit</button></label>   
+        
+       
+    
+ 
+</body>
+<script>
+
+
+    const usernameInput =document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const submitbutton = document.getElementById("btn")
+                
+ async function test(){
+    let httpRequestBody = {
+    username: usernameInput.value,
+    password: passwordInput.value
+    }
+
+let config = {
+    method:"PATCH", // method is a reference to the kind of request you are making (the verb): GET is the default
+    headers:{'Content-Type':"application/json"}, // some APIs will return an error message without this value included
+    body: JSON.stringify(httpRequestBody) // stringify converts a JavaScript object into a json
+}
+
+const httpResponse = await fetch("https://bugcatcher.coe.revaturelabs.com/26/login", config); // notice we added the config object
+if(httpResponse.status === 200){ // 200 basically means request made successfully
+            let responseBody = await httpResponse.json(); // remember, json() returns a promise, so we use await to get the data we want out of it
+
+            if(responseBody.role === "Tester"){
+                window.location.href = "Tester.html"
+            } else {
+                window.location.href = "Manager.html";
+            }
+        } else {
+            let responseBody = await httpResponse.json(); // remember, json() returns a promise, so we use await to get the data we want out of it
+            alert(responseBody.detail);
+        }
+
+    }
+
+
+submitbutton.addEventListener('click',test)
+                  
+</script>
+</html>
