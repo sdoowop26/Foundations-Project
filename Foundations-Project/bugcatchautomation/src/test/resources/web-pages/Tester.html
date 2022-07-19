@@ -7,93 +7,154 @@
     <link rel="stylesheet" href="style1.css">
     <title>Turtle Bros Inc Tester Page</title>
 </head>
-<body onload="DefectId()">
+<body >
     <img src= "head2.png" alt="">
     <h1>Welcome Michelangelo!</h1>
-  
-   <table> <h2> Defect Assignments</h2> </table>
+
+    <p>Defect Id: </p> <input type="text" placeholder="defectId" id="defectId"> 
+    <p>Defect Status:</p> <input type="text" placeholder="defectStatus" id="defectStatus">
+    <input onclick="defectInfo()" id ="number"  type="submit">
+    <label><button type="submit" id="desc" onclick="update" >Update</button></label>
+    
+    
     <table>
         <thead>
-            <tr><th>Defect Id</th>
+            <tr>                                          
+                <th colspan="2">Assigned Defects</th>         
+            </tr>                                           
+            <tr>                                            
+                <td>Defect Id</td>                       
+                <td>Defect Status</td>
                 
-                 <th>Pending</th>
-                 <th>Defect Status</th></tr> 
-            <input onclick="DefectId()" type="submit">
-            <select aria-label="Defects" >
-                <label>defectNum</label>
-                <option></option>
-                <option id="defectId"></option></select>
-            <select aria-label="Defects" >
+                                      
                 
-                <option id="defectId-1">Accept</option>
-                <option id="defectId-2">Declined</option>
-                <option id="defectId-3">Fixed</option>
-                <option id="defectId-4">Rejected</option>
-                <option id="defectId-5">Shelved</option>
-            </select>
+                                       
+            </tr>
             
-                  
-
-        
-                
-            
-            
-        <thead><tbody id="Table1"></tbody></thead>
         </thead>
-     
-     <table>
-
-                <thead>
+        <tbody id="defectBody">
             
+        </tbody>
+    </table>
+
     
+            
+                
+                 
 
 <script>
 
  const username = localStorage.getItem("username")
  const defectId = document.getElementById("defectId")
- document.getElementById("defectId").innerHTML =`${localStorage.getItem("defectInput")}`;
+ const submitButton = document.getElementById("submit")
+ 
+ 
     
          
     
-async function DefectId(){
-    
-
-    
-      
-
-let httpResponse = await fetch("https://bugcatcher.coe.revaturelabs.com/26/defects") // notice we added the config object
-console.log(httpResponse);
-
-
-if(httpResponse.status === 200){ // 200 basically means request made successfully
-    
-    let responseBody = await httpResponse.json(); // remember, json() returns a promise, so we use await to get the data we want out of it
-     console.log(responseBody)
-     for (let defect of responseBody){
-  console.log(defect.assignedTo)
-  
-     } 
-        
-     }      
-}
-
-
-
-async function updateTable(){
-
-    let tbody1 =""
-    
+async function defectInfo(){
 
     let config = {
-        method:"PATCH", // method is a reference to the kind of request you are making (the verb): GET is the default
-    headers:{'Content-Type':"application/json"} // some APIs will return an error message without this value included
+       method:"GET", // method is a reference to the kind of request you are making (the verb): GET is the default
+       headers:{'Content-Type':"application/json"}, // some APIs will return an error message without this value included
+       
+   }
+ 
+
+    let httpResponse = await fetch("https://bugcatcher.coe.revaturelabs.com/26/defects", config); // notice we added the config object
+    console.log(httpResponse);
+
+
+    if(httpResponse.status === 200){ // 200 basically means request made successfully
     
+        let responseBody = await httpResponse.json(); // remember, json() returns a promise, so we use await to get the data we want out of it
+        console.log(responseBody)
+        for (let defect of responseBody){
+            console.log(defect.assignedTo)
+        }
+
+
+        console.log(localStorage.getItem("username"));
+        let defectBody = document.getElementById("defectBody");
+        
+        htmlString = "";
+
+        for(defect of responseBody) {
+            if(defect.assignedTo == localStorage.getItem("username")) {
+                htmlString += "<tr>" 
+
+                htmlString += "<td>"  + defect.defectId + "</td>"       
+                htmlString += "<td>"  + defect.status + "</td>"      
+
+                htmlString += "</tr>"    
+            }
+        }
+
+
+        defectBody.innerHTML = htmlString;
+        
+    }      
 }
 
-const httpResponse = await fetch(`https://bugcatcher.coe.revaturelabs.com/26/defects`, config); // notice we added the config object
-    const responseBody = await httpResponse.json(); // remember, json() returns a promise, so we use await to get the data we want out of it
-    console.log(httpResponse.status)
+const defectStatus = JSON.stringify(status)
+const updatebutton = getElementById("button")
+
+async function update(){
+
+    let updateInfo = {
+
+        assignedTo: document.getElementById("testerNames").value,
+        desc: document.getElementById("defectId").value,
+        status: "Accepted:", 
+        status: "Declined",
+        status: "Fixed",
+        status: "Rejected",
+        status: "Shelved",
+
+    }
+
+    let updateJSON = JSON.stringify(updateInfo);
+
+    let config = {
+        method: "PATCH", 
+        headers: {'Content-Type':"application/json"},
+        body: updateJSON
+    }
+
+    let httpResponse = await fetch(`https://bugcatcher.coe.revaturelabs.com/26/defects/${defectId}.assignedTo:document.getElementById("testernames")`, config)
+    if(httpResponse.status ==204){
+          const responseBody =  await httpResponse.json(); // converts the response body json into a JavaScript object
+          Console.log(responseBody)
+          localStorage.setItem("username", responseBody.assignedTo)
+          alert("Cowabunga Dude")
+        
+    }
 }
+
+updatebutton.addEventListener('click',update)
+        
+        
+
+        
+            
+        
+
+    
+
+    
+
+
+
+
+    
+    
+
+
+
+
+
+
+
 
 
 

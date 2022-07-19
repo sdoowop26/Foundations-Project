@@ -43,10 +43,12 @@ let config = {
 
 const httpResponse = await fetch("https://bugcatcher.coe.revaturelabs.com/26/login", config); // notice we added the config object
 if(httpResponse.status === 200){ // 200 basically means request made successfully
+    (alert)
             let responseBody = await httpResponse.json(); // remember, json() returns a promise, so we use await to get the data we want out of it
 
             if(responseBody.role === "Tester"){
                 window.location.href = "Tester.html"
+                localStorage.setItem("username", responseBody.username)
             } else {
                 window.location.href = "Manager.html";
             }

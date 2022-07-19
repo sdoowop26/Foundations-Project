@@ -12,15 +12,15 @@
     <h1>Welcome Raphael!</h1>
 
     <label for="Testers">Choose a Tester:</label>
-    <p> Ryan</p> <p>Michelangelo</p>
+    <p> Ryan</p> <p>Michelangelo</p> <p>Donatello</p> <p>Leonardo</p>
   <input type="text" aria-label="testerNames" id="testerNames" >
 
 
    
 
     
-   <p id="Defect Id"> Enter Defect: </p>
-   <input type="text" placeholder="defectId" id="defectInput">
+   <p> Enter Defect: </p>
+   <input type="text" placeholder="defectId" id="defectId">
    
     
     <input onclick="assignDefect()" id="submit" type="submit">
@@ -34,15 +34,13 @@
 
 
 async function assignDefect(){
-  console.log(document.getElementById("defectInput").value)
-   // Co1llect the defect information from the web page
-   const defect = document.getElementById("defect")
+  
    let defectInfo = {
-            defectId: 0,
+            
             assignedTo: document.getElementById("testerNames").value,
             dateReported: 0,
-            status: "Pending",
-            desc: document.getElementById("defectInput").value,
+            
+            desc: document.getElementById("defectId").value,
             stepsToReproduce: "string",
             severity: "Low",
             priority: "Low"
@@ -52,7 +50,8 @@ async function assignDefect(){
    // Combine it into a custom object
    // date string must be converted to int for API
    
-   }   
+   }
+  
        
    // Set up the configuration for the FETCH command to the Api
    let config = {
@@ -70,10 +69,11 @@ async function assignDefect(){
    // Get the response from the API
    // Interpret the response and respond accordingly (defect added or not)
    if (httpResponse.status == 201){
-       alert ("defect was  assigned")
-   const responseBody = await httpResponse.json(); // converts the response body json into a JavaScript object
+    const responseBody =  await httpResponse.json(); // converts the response body json into a JavaScript object
     console.log(responseBody)
     localStorage.setItem("defectInput", responseBody.defectId)
+    localStorage.setItem("username", responseBody.assignedTo)
+    alert("defect was assigned")
     window.location.href = "Tester.html"
    }
 }

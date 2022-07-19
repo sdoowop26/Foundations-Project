@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class manager {
+public class tester {
 
     // this class is going to be my Java version of my login homepage
 
@@ -14,18 +14,23 @@ public class manager {
      * "boilerplate"(redundant/repetitive) code.
      */
   
-    public WebDriver driver;
+    private static final String descisionInput = null;
 
-    @FindBy(id = "testerNames")
-    public WebElement testernamesInput;
+    public WebDriver driver;
 
     @FindBy(id = "defectId")
     public WebElement defectIdInput;
 
-    @FindBy(id = "submit")
+
+    @FindBy(id = "status")
+    public WebElement statusInput;
+
+    
+    @FindBy(id = "number")
     public WebElement submitButton;
 
-    public manager(WebDriver driver){
+    
+    public tester(WebDriver driver){
         
 
         /*
@@ -37,24 +42,30 @@ public class manager {
 
     }
 
-    public void enterTesternames(String testernames){
-           this.testernamesInput.sendKeys(testernames);
-    }
+    public void enterDefectId(String defectId){
+        this.defectIdInput.sendKeys(defectId);
 
-    public void enterDefect(String defect){
-        this.defectIdInput.sendKeys(defect);
+        }
+        
+        public void enterDescision(String string) {
+            this.descisionInput.sendKeys(descision);
+        }
 
-        }  
+        
 
     public void clickButton(){
         this.submitButton.click();
+    }
+
+    
+
+    public void descision() {
+        this.descisionInput.sendKeys(descision);
     }
     
     
 
 }
 
-
-
-
     
+
